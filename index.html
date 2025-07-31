@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Algorithm Visualizer</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Interactive Algorithm Visualizer</h1>
+            <p>Visualize graph traversal algorithms with interactive examples</p>
+        </header>
+
+        <div class="algorithm-selector">
+            <button id="bfs-tab" class="tab-button active">BFS - Shortest Path in Maze</button>
+            <button id="dfs-tab" class="tab-button">DFS - Cycle Detection</button>
+        </div>
+
+        <div class="visualization-container">
+            <!-- BFS Visualization Panel -->
+            <div id="bfs-panel" class="panel active">
+                <div class="controls">
+                    <h3>Breadth-First Search: Shortest Path in Maze</h3>
+                    <p>Find the shortest path from start (green) to goal (red) in an unweighted grid</p>
+                    <div class="control-buttons">
+                        <button id="bfs-generate-maze">Generate Random Maze</button>
+                        <button id="bfs-clear">Clear Grid</button>
+                        <button id="bfs-start" disabled>Start BFS</button>
+                        <button id="bfs-pause" disabled>Pause</button>
+                        <button id="bfs-reset">Reset</button>
+                    </div>
+                    <div class="speed-control">
+                        <label for="bfs-speed">Speed:</label>
+                        <input type="range" id="bfs-speed" min="1" max="10" value="5">
+                        <span id="bfs-speed-value">5</span>
+                    </div>
+                </div>
+                <div class="visualization-area">
+                    <canvas id="bfs-canvas" width="600" height="400"></canvas>
+                </div>
+                <div class="info-panel">
+                    <div class="legend">
+                        <h4>Legend:</h4>
+                        <div class="legend-item"><span class="color-box start"></span> Start Node</div>
+                        <div class="legend-item"><span class="color-box goal"></span> Goal Node</div>
+                        <div class="legend-item"><span class="color-box wall"></span> Wall</div>
+                        <div class="legend-item"><span class="color-box visited"></span> Visited</div>
+                        <div class="legend-item"><span class="color-box frontier"></span> Frontier</div>
+                        <div class="legend-item"><span class="color-box path"></span> Shortest Path</div>
+                    </div>
+                    <div class="stats">
+                        <h4>Statistics:</h4>
+                        <p>Nodes Visited: <span id="bfs-visited-count">0</span></p>
+                        <p>Path Length: <span id="bfs-path-length">0</span></p>
+                        <p>Algorithm Status: <span id="bfs-status">Ready</span></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DFS Visualization Panel -->
+            <div id="dfs-panel" class="panel">
+                <div class="controls">
+                    <h3>Depth-First Search: Cycle Detection</h3>
+                    <p>Detect cycles in a directed graph (e.g., circular dependencies in task scheduling)</p>
+                    <div class="control-buttons">
+                        <button id="dfs-generate-graph">Generate Random Graph</button>
+                        <button id="dfs-add-cycle">Add Cycle</button>
+                        <button id="dfs-clear">Clear Graph</button>
+                        <button id="dfs-start" disabled>Start DFS</button>
+                        <button id="dfs-pause" disabled>Pause</button>
+                        <button id="dfs-reset">Reset</button>
+                    </div>
+                    <div class="speed-control">
+                        <label for="dfs-speed">Speed:</label>
+                        <input type="range" id="dfs-speed" min="1" max="10" value="5">
+                        <span id="dfs-speed-value">5</span>
+                    </div>
+                </div>
+                <div class="visualization-area">
+                    <canvas id="dfs-canvas" width="600" height="400"></canvas>
+                </div>
+                <div class="info-panel">
+                    <div class="legend">
+                        <h4>Legend:</h4>
+                        <div class="legend-item"><span class="color-box unvisited-node"></span> Unvisited Node</div>
+                        <div class="legend-item"><span class="color-box visiting-node"></span> Currently Visiting</div>
+                        <div class="legend-item"><span class="color-box visited-node"></span> Visited Node</div>
+                        <div class="legend-item"><span class="color-box cycle-node"></span> Cycle Detected</div>
+                        <div class="legend-item"><span class="color-box edge"></span> Edge</div>
+                        <div class="legend-item"><span class="color-box cycle-edge"></span> Cycle Edge</div>
+                    </div>
+                    <div class="stats">
+                        <h4>Statistics:</h4>
+                        <p>Nodes Visited: <span id="dfs-visited-count">0</span></p>
+                        <p>Cycles Found: <span id="dfs-cycle-count">0</span></p>
+                        <p>Algorithm Status: <span id="dfs-status">Ready</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="instructions">
+            <h3>Instructions:</h3>
+            <div class="instruction-tabs">
+                <div id="bfs-instructions" class="instruction-content active">
+                    <ul>
+                        <li>Click "Generate Random Maze" to create a maze with obstacles</li>
+                        <li>You can also click on the grid to toggle walls manually</li>
+                        <li>Click "Start BFS" to begin the shortest path search</li>
+                        <li>Watch as BFS explores level by level, guaranteeing the shortest path</li>
+                        <li>Use the speed slider to control visualization speed</li>
+                    </ul>
+                </div>
+                <div id="dfs-instructions" class="instruction-content">
+                    <ul>
+                        <li>Click "Generate Random Graph" to create a directed graph</li>
+                        <li>Click "Add Cycle" to intentionally create a cycle for demonstration</li>
+                        <li>You can also click on nodes and drag to create edges manually</li>
+                        <li>Click "Start DFS" to begin cycle detection</li>
+                        <li>Watch as DFS explores deeply and detects back edges (cycles)</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include JavaScript modules -->
+    <script src="js/utils.js"></script>
+    <script src="js/graph.js"></script>
+    <script src="js/bfs.js"></script>
+    <script src="js/dfs.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
